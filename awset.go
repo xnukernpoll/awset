@@ -1,10 +1,10 @@
-package orswot
+package awset
 //import "sync"
 
 
 
 
-type Orswot struct {
+type AWSet struct {
 	actor string
 	elements map[interface{}]vclock
 	dots vclock
@@ -12,9 +12,27 @@ type Orswot struct {
 
 
 
+func New(actor string) AWSet {
+	elements := make(map[interface{}]vclock)
+	return AWSet {actor, elements, init_vclock() }
+}
 
 
-func (OS *Orswot) Insert(e interface{}) {
+
+func FromSlice(actor string, slice []interface{}) AWSet {
+
+	os := New(actor)
+
+	for x, _ := range slice {
+		os.Insert(x)
+	}
+
+	return os
+} 
+
+
+
+func (OS *AWSet) Insert(e interface{}) {
 	ctr := OS.dots.increment(OS.actor) 
 
 	s, exists := OS.elements[e]
@@ -35,7 +53,7 @@ func (OS *Orswot) Insert(e interface{}) {
 
 
 
-func (OS *Orswot) Remove(e interface{}) {
+func (OS *AWSet) Remove(e interface{}) {
 	
 	delete(OS.elements, e)
 	OS.dots.increment(OS.actor)
@@ -45,7 +63,7 @@ func (OS *Orswot) Remove(e interface{}) {
 
 
 
-func (OS *Orswot) View() []interface{} {
+func (OS *AWSet) View() []interface{} {
 
 
 	var ret []interface{}
@@ -62,7 +80,7 @@ func (OS *Orswot) View() []interface{} {
 
 
 
-func (L *Orswot) Merge(R *Orswot) {
+func (L *AWSet) Merge(R *AWSet) {
 
 
 	for e, dots := range R.elements {
