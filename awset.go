@@ -62,6 +62,11 @@ func (OS *AWSet) Remove(e interface{}) {
 
 
 
+func (AW *AWSet) Contains(e interface{}) bool {
+	_, ex := AW.elements[e]
+	return ex
+}
+
 
 func (OS *AWSet) View() []interface{} {
 
