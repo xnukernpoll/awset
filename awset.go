@@ -129,4 +129,6 @@ func (L *AWSet) Merge(R *AWSet) {
 
 
 	
-
+func (A *AWSet) Len() int {
+	return len(A.elements)
+}
